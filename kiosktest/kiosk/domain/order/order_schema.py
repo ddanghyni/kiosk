@@ -40,6 +40,15 @@ class OrderSummary(BaseModel):
         from_attributes = True
 
 
+## 매장 또는 포장 선택하는 모델
+class StateCreate(BaseModel):
+    state_name: int
+    
+
+    class Config():
+        from_attributes = True
+
+
 
 
 

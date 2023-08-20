@@ -39,14 +39,14 @@ class Menu(Base):
 
 
 #주문자 정보 테이블
-class Orderer(Base):
-    __tablename__ = 'orderer'
-    __table_args__ = {'schema': 'kiosk'}
-    orderer_id = Column(Integer, primary_key=True, index = True)
-    orderer_name = Column(String(50), nullable=False)
-    orderer_phone = Column(String(50), nullable=False)
-    orderer_gender = Column(String(10), nullable=False)
-    orderer_age = Column(Integer, nullable=False)
+# class Orderer(Base):
+#     __tablename__ = 'orderer'
+#     __table_args__ = {'schema': 'kiosk'}
+#     orderer_id = Column(Integer, primary_key=True, index = True)
+#     orderer_name = Column(String(50), nullable=False)
+#     orderer_phone = Column(String(50), nullable=False)
+#     orderer_gender = Column(String(10), nullable=False)
+#     orderer_age = Column(Integer, nullable=False)
 
 
 class FaceAnalysis(Base):
@@ -85,6 +85,14 @@ class RecommendedMenu(Base):
 
 
 
+class State(Base):
+    __tablename__ = 'state'
+    __table_args__ = {'schema': 'kiosk'}
+    state_pk = Column(Integer, primary_key=True, autoincrement=True)
+    state_name = Column(Integer, nullable=False) # 0 = 매장 , 1 = 포장
+    id = Column(Integer, ForeignKey('kiosk.face_analysis.id'))
+    face_analysis = relationship('FaceAnalysis', backref='state')
+    
 
 
 

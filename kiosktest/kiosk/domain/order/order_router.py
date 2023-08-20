@@ -135,7 +135,7 @@ def 메뉴_주문(id: int, order: OrderCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/order_check/{customer_id}")
-def 고객_주문_내역_조회(customer_id: int, db: Session = Depends(get_db)):
+def 장바구니(customer_id: int, db: Session = Depends(get_db)):
     customer = db.query(models.FaceAnalysis).filter(models.FaceAnalysis.id == customer_id).first()
     if not customer:
         raise HTTPException(status_code=404, detail="Customer not found")

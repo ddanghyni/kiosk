@@ -20,20 +20,20 @@ def age_to_age_group(age: int) -> int:
 
 
 
-@router.get('/recommendation/{orderer_id}')
-def 고객_메뉴_추천(orderer_id: int, db: Session = Depends(get_db)):
-    # 주문자 정보 가져오기
-    orderer = db.query(models.Orderer).filter(models.Orderer.orderer_id == orderer_id).first()
-    if not orderer:
-        raise HTTPException(status_code=404, detail="Orderer not found")
+@router.get('/recommendation/{face_analysis_id}')
+def 고객_메뉴_추천(face_analysis_id: int, db: Session = Depends(get_db)):
+    # 분석 정보 가져오기
+    analysis = db.query(models.FaceAnalysis).filter(models.FaceAnalysis.id == face_analysis_id).first()
+    if not analysis:
+        raise HTTPException(status_code=404, detail="Analysis not found")
 
     # 나이를 연령대로 변환
-    age_group = age_to_age_group(orderer.orderer_age)
+    age_group = age_to_age_group(analysis.age)
 
     # 해당 연령대와 성별에 해당하는 추천 메뉴들 찾기
     recommendations = (
         db.query(models.RecommendedMenu)
-        .filter(models.RecommendedMenu.age == age_group, models.RecommendedMenu.gender == orderer.orderer_gender)
+        .filter(models.RecommendedMenu.age == age_group, models.RecommendedMenu.gender == analysis.gender)
         .all()
     )
 
@@ -50,3 +50,4 @@ def 고객_메뉴_추천(orderer_id: int, db: Session = Depends(get_db)):
     ]
 
     return {"recommended_menus": recommended_menus}
+
